@@ -1,22 +1,48 @@
-export default function Home() {
-  return (
-    <div className="space-y-6">
-      {/* Page Title */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-1">Welcome to your admin dashboard</p>
-      </div>
+'use client';
 
-      {/* Placeholder Content Area */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 min-h-96 flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="text-6xl">📊</div>
-          <h2 className="text-2xl font-semibold text-gray-900">Dashboard Content Here</h2>
-          <p className="text-gray-600 max-w-md">
-            This is a placeholder for the main dashboard content. Build your pages and components here.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
+import { useRole } from '@/context/RoleContext';
+import { usePage } from '@/context/PageContext';
+import Overview from '@/components/Overview';
+import ProductsPage from '@/components/pages/ProductsPage';
+import PricingDiscountsPage from '@/components/pages/PricingDiscountsPage';
+import OrdersPage from '@/components/pages/OrdersPage';
+import InventoryPage from '@/components/pages/InventoryPage';
+import InvoicesPage from '@/components/pages/InvoicesPage';
+import VendorsPage from '@/components/pages/VendorsPage';
+import SupportPage from '@/components/pages/SupportPage';
+import UsersRolesPage from '@/components/pages/UsersRolesPage';
+import SettingsPage from '@/components/pages/SettingsPage';
+
+export default function Home() {
+  const { activeRole } = useRole();
+  const { activePage } = usePage();
+
+  const renderPage = () => {
+    switch (activePage) {
+      case 'Overview':
+        return <Overview activeRole={activeRole} />;
+      case 'Products':
+        return <ProductsPage activeRole={activeRole} />;
+      case 'Pricing & Discounts':
+        return <PricingDiscountsPage activeRole={activeRole} />;
+      case 'Orders':
+        return <OrdersPage activeRole={activeRole} />;
+      case 'Inventory':
+        return <InventoryPage activeRole={activeRole} />;
+      case 'Invoices':
+        return <InvoicesPage activeRole={activeRole} />;
+      case 'Vendors':
+        return <VendorsPage activeRole={activeRole} />;
+      case 'Support':
+        return <SupportPage activeRole={activeRole} />;
+      case 'Users & Roles':
+        return <UsersRolesPage activeRole={activeRole} />;
+      case 'Settings':
+        return <SettingsPage activeRole={activeRole} />;
+      default:
+        return <Overview activeRole={activeRole} />;
+    }
+  };
+
+  return renderPage();
 }
