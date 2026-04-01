@@ -15,16 +15,16 @@ export default function Sidebar({ activeRole }) {
 
   // All navigation items
   const allNavigationItems = [
-    { name: 'Overview', icon: '📊' },
-    { name: 'Products', icon: '📦' },
-    { name: 'Pricing & Discounts', icon: '💰' },
-    { name: 'Orders', icon: '🛒' },
-    { name: 'Inventory', icon: '📋' },
-    { name: 'Invoices', icon: '📄' },
-    { name: 'Vendors', icon: '🤝' },
-    { name: 'Support', icon: '🆘' },
-    { name: 'Users & Roles', icon: '👥' },
-    { name: 'Settings', icon: '⚙️' },
+    { name: 'Overview', icon: '📊', href: '/' },
+    { name: 'Products', icon: '📦', href: '/' },
+    { name: 'Pricing & Discounts', icon: '💰', href: '/pricing' },
+    { name: 'Orders', icon: '🛒', href: '/orders' },
+    { name: 'Inventory', icon: '📋', href: '/inventory' },
+    { name: 'Invoices', icon: '📄', href: '/invoices' },
+    { name: 'Vendors', icon: '🤝', href: '/vendors' },
+    { name: 'Support', icon: '🆘', href: '/support' },
+    { name: 'Users & Roles', icon: '👥', href: '/users' },
+    { name: 'Settings', icon: '⚙️', href: '/settings' },
   ];
 
   // Access matrix - defines access level for each role to each menu item
@@ -173,8 +173,8 @@ export default function Sidebar({ activeRole }) {
                   <span className="flex-1">{item.name}</span>
                   {accessLevel !== 'full' && (
                     <span className="text-xs">🔒</span>
-                  )}
-                </button>
+                  </div>
+                )}
                 {accessLevel !== 'full' && (
                   <div className="ml-4 mb-1">
                     {getAccessBadge(accessLevel)}
