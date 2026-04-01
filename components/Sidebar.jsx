@@ -173,8 +173,8 @@ export default function Sidebar({ activeRole }) {
                   <span className="flex-1">{item.name}</span>
                   {accessLevel !== 'full' && (
                     <span className="text-xs">🔒</span>
-                  </div>
-                )}
+                  )}
+                </button>
                 {accessLevel !== 'full' && (
                   <div className="ml-4 mb-1">
                     {getAccessBadge(accessLevel)}
