@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 
 export default function Sidebar({ activeRole }) {
   // Role descriptions
@@ -14,16 +15,16 @@ export default function Sidebar({ activeRole }) {
 
   // All navigation items
   const allNavigationItems = [
-    { name: 'Overview', icon: '📊' },
-    { name: 'Products', icon: '📦' },
-    { name: 'Pricing & Discounts', icon: '💰' },
-    { name: 'Orders', icon: '🛒' },
-    { name: 'Inventory', icon: '📋' },
-    { name: 'Invoices', icon: '📄' },
-    { name: 'Vendors', icon: '🤝' },
-    { name: 'Support', icon: '🆘' },
-    { name: 'Users & Roles', icon: '👥' },
-    { name: 'Settings', icon: '⚙️' },
+    { name: 'Overview', icon: '📊', href: '/' },
+    { name: 'Products', icon: '📦', href: '/' },
+    { name: 'Pricing & Discounts', icon: '💰', href: '/pricing' },
+    { name: 'Orders', icon: '🛒', href: '/orders' },
+    { name: 'Inventory', icon: '📋', href: '/inventory' },
+    { name: 'Invoices', icon: '📄', href: '/invoices' },
+    { name: 'Vendors', icon: '🤝', href: '/vendors' },
+    { name: 'Support', icon: '🆘', href: '/support' },
+    { name: 'Users & Roles', icon: '👥', href: '/users' },
+    { name: 'Settings', icon: '⚙️', href: '/settings' },
   ];
 
   // Access matrix - defines access level for each role to each menu item
@@ -150,21 +151,27 @@ export default function Sidebar({ activeRole }) {
           {allNavigationItems.map((item, index) => {
             const accessLevel = getRoleAccess(item.name);
             const isAccessible = accessLevel === 'full';
-            
+
             return (
               <div key={index}>
-                <button
-                  onClick={(e) => handleRestrictedClick(e, accessLevel)}
-                  disabled={!isAccessible}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-left border ${getAccessStyles(accessLevel)}`}
-                  title={!isAccessible ? `${accessLevel === 'limited' ? 'Limited access' : 'No access'} to this section` : ''}
-                >
-                  <span className="text-lg">{item.icon}</span>
-                  <span className="flex-1">{item.name}</span>
-                  {accessLevel !== 'full' && (
+                {isAccessible ? (
+                  <Link
+                    href={item.href}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-left border ${getAccessStyles(accessLevel)}`}
+                  >
+                    <span className="text-lg">{item.icon}</span>
+                    <span className="flex-1">{item.name}</span>
+                  </Link>
+                ) : (
+                  <div
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-left border ${getAccessStyles(accessLevel)}`}
+                    title={`${accessLevel === 'limited' ? 'Limited access' : 'No access'} to this section`}
+                  >
+                    <span className="text-lg">{item.icon}</span>
+                    <span className="flex-1">{item.name}</span>
                     <span className="text-xs">🔒</span>
-                  )}
-                </button>
+                  </div>
+                )}
                 {accessLevel !== 'full' && (
                   <div className="ml-4 mb-1">
                     {getAccessBadge(accessLevel)}

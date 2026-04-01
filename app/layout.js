@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { RoleContext } from '@/context/RoleContext';
+import { AppDataProvider } from '@/context/AppDataContext';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import './globals.css';
@@ -26,7 +28,11 @@ export default function RootLayout({ children }) {
 
             {/* Main Content Area */}
             <main className="flex-1 overflow-auto p-8">
-              {children}
+              <RoleContext.Provider value={{ activeRole, setActiveRole }}>
+                <AppDataProvider>
+                  {children}
+                </AppDataProvider>
+              </RoleContext.Provider>
             </main>
           </div>
         </div>
