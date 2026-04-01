@@ -3,19 +3,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
-    },
-    "jsx": "preserve",
-    "moduleResolution": "node",
-    "allowJs": true,
-    "noEmit": true,
-    "isolatedModules": true
-  },
-  "include": [
-    "**/*.js",
-    "**/*.jsx",
-    "**/*.ts",
-    "**/*.tsx",
-    "next-env.d.ts"
-  ],
-  "exclude": ["node_modules"]
+    }
+  }
 }

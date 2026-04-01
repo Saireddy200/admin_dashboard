@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
+import { usePage } from '@/context/PageContext';
 
 export default function Sidebar({ activeRole }) {
   // Role descriptions
@@ -95,6 +95,8 @@ export default function Sidebar({ activeRole }) {
     return accessMatrix[activeRole]?.[itemName] || 'none';
   };
 
+  const { activePage, setActivePage } = usePage();
+
   const getAccessStyles = (accessLevel) => {
     switch (accessLevel) {
       case 'full':
@@ -121,8 +123,10 @@ export default function Sidebar({ activeRole }) {
     }
   };
 
-  const handleRestrictedClick = (e, accessLevel) => {
-    if (accessLevel !== 'full') {
+  const handleRestrictedClick = (e, accessLevel, itemName) => {
+    if (accessLevel === 'full') {
+      setActivePage(itemName);
+    } else {
       e.preventDefault();
     }
   };
@@ -151,24 +155,23 @@ export default function Sidebar({ activeRole }) {
           {allNavigationItems.map((item, index) => {
             const accessLevel = getRoleAccess(item.name);
             const isAccessible = accessLevel === 'full';
-
+            const isActive = activePage === item.name;
+            
             return (
               <div key={index}>
-                {isAccessible ? (
-                  <Link
-                    href={item.href}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-left border ${getAccessStyles(accessLevel)}`}
-                  >
-                    <span className="text-lg">{item.icon}</span>
-                    <span className="flex-1">{item.name}</span>
-                  </Link>
-                ) : (
-                  <div
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-left border ${getAccessStyles(accessLevel)}`}
-                    title={`${accessLevel === 'limited' ? 'Limited access' : 'No access'} to this section`}
-                  >
-                    <span className="text-lg">{item.icon}</span>
-                    <span className="flex-1">{item.name}</span>
+                <button
+                  onClick={(e) => handleRestrictedClick(e, accessLevel, item.name)}
+                  disabled={!isAccessible}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-left border ${
+                    isActive && isAccessible 
+                      ? 'bg-blue-50 text-blue-600 border-blue-200'
+                      : getAccessStyles(accessLevel)
+                  }`}
+                  title={!isAccessible ? `${accessLevel === 'limited' ? 'Limited access' : 'No access'} to this section` : ''}
+                >
+                  <span className="text-lg">{item.icon}</span>
+                  <span className="flex-1">{item.name}</span>
+                  {accessLevel !== 'full' && (
                     <span className="text-xs">🔒</span>
                   </div>
                 )}
